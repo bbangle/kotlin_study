@@ -16,7 +16,7 @@ class PostApiController {
         return "post-mapping"
     }
 
-    @RequestMapping("/post-request-mapping", method = [RequestMethod.POST])
+    @RequestMapping("/request-mapping", method = [RequestMethod.POST])
     fun requestMapping():String {
         return "post-request-mapping"
     }
