@@ -3,6 +3,10 @@ package com.example.mvc.controller.put
 import com.example.mvc.model.http.Result
 import com.example.mvc.model.http.UserRequest
 import com.example.mvc.model.http.UserResponse
+import jakarta.validation.Valid
+import org.springframework.http.ResponseEntity
+import org.springframework.validation.BindingResult
+import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -24,8 +28,23 @@ class PutApiController {
     }
 
     @PutMapping("/put-mapping/object")
-    fun putMappingObject(@RequestBody userRequest: UserRequest):UserResponse {
-        // 0. Response
+    fun putMappingObject(@Valid @RequestBody userRequest: UserRequest, bindingResult: BindingResult): ResponseEntity<String> {
+
+        if(bindingResult.hasErrors()){
+            //500 error
+            val msg = StringBuffer()
+            bindingResult.allErrors.forEach {
+                val field = it as FieldError
+                val message = it.defaultMessage
+                msg.append("${field.field}  :  $message\n")
+            }
+            return ResponseEntity.badRequest().body(msg.toString())
+        }
+
+        return ResponseEntity.ok("success")
+
+
+        /*// 0. Response
         return UserResponse().apply {
             this.result = Result().apply {
                 this.resultCode = "OK"
@@ -55,6 +74,6 @@ class PutApiController {
             })
 
             this.userRequest = userList
-        }
+        }*/
     }
 }
