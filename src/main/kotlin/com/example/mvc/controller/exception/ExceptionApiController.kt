@@ -23,9 +23,10 @@ import java.time.LocalDateTime
 class ExceptionApiController {
 
     @GetMapping("/hello")
-    fun hello() {
+    fun hello():String {
         var list = mutableListOf<String>()
-        var temp = list[0]
+        //var temp = list[0]
+        return "hello"
     }
 
     @GetMapping("")
